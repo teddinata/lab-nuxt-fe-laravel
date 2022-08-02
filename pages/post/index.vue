@@ -7,7 +7,12 @@
           <hr>
           <b-button tag="nuxt-link"
             :to="{ name: 'post-create' }" class="mb-3" variant="primary">Tambah Data</b-button>
-          <b-table striped bordered hover :items="posts" :fields="fields" show-empty></b-table>
+          <b-table striped bordered hover :items="posts" :fields="fields" show-empty>
+            <template v-slot:cell(actions)="row">
+              <b-button :to="{ name: 'post-edit-id', params: { id: row.item.id } }" variant="warning" size="sm">Edit</b-button>
+              <b-button @click="deletePost(row)" variant="danger" size="sm">Delete</b-button>
+            </template>
+          </b-table>
         </b-card>
       </b-col>
     </b-row>
@@ -36,7 +41,7 @@ export default {
           key: 'content',
           label: 'Content',
           sortable: true,
-          width: '50%'
+          width: '20%'
         },
         {
           key: 'created_at',
@@ -45,10 +50,10 @@ export default {
           width: '10%'
         },
         {
-          key: 'action',
+          key: 'actions',
           label: 'Action',
           sortable: false,
-          width: '10%'
+          width: '15%'
         }
       ],
       // fields: [ 'title', 'content',  'actions'],
@@ -66,6 +71,25 @@ export default {
       .catch(error => {
         console.log(error.response.data)
       })
+  },
+
+  methods: {
+    async deletePost(row) {
+      // send data ke api
+      await this.$axios.delete(`/api/posts/${row.item.id}`)
+        .then(() => {
+
+          // remove item by array index
+          this.posts.splice(row.index, 1);
+          // toast notification when successful delete with id
+
+          this.$bvToast.toast(`Data with id ${row.item.title} has been deleted`, {
+          title: `Data berhasil dihapus`,
+          variant: 'info',
+          solid: true
+        })
+        })
+    }
   }
 }
 </script>

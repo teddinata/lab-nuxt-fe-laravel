@@ -63,10 +63,7 @@
 
         })
         .then(() => {
-          // redirect ke post
-          this.$router.push({
-            name: 'post'
-          })
+          this.$router.push({ name: 'post' })
 
         })
         .catch(error => {
