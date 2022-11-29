@@ -63,17 +63,20 @@ export default {
   },
 
   mounted() {
-    // fetching data
-    this.$axios.get('/api/posts')
-      .then(response => {
-        this.posts = response.data.data
-      })
-      .catch(error => {
-        console.log(error.response.data)
-      })
+    this.getList()
   },
 
   methods: {
+    async getList(){
+      await // fetching data
+      this.$axios.get('/api/posts')
+        .then(response => {
+          this.posts = response.data.data
+        })
+        .catch(error => {
+          console.log(error.response.data)
+        })
+    },
     async deletePost(row) {
       // send data ke api
       await this.$axios.delete(`/api/posts/${row.item.id}`)
