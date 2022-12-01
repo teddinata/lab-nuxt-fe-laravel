@@ -1,4 +1,4 @@
 import Vue from 'vue';
-import CKEditor from '@ckeditor/ckeditor5-vue2';
+import VCKEditor from "../components/editor/VCKEditor.vue";
 
-Vue.use( CKEditor );
+Vue.component('v-ckeditor', VCKEditor);
